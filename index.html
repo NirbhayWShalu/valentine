@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Valentine Week ❤️ Only For You</title>
+
+<style>
+body {
+    margin: 0;
+    font-family: 'Poppins', sans-serif;
+    background: linear-gradient(135deg, #ff758c, #ff7eb3);
+    color: white;
+    text-align: center;
+}
+
+h1 {
+    padding: 20px 10px;
+    font-size: 2rem;
+}
+
+.container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+    gap: 15px;
+    padding: 20px;
+}
+
+.card {
+    background: rgba(255,255,255,0.18);
+    border-radius: 22px;
+    padding: 18px;
+    cursor: pointer;
+    backdrop-filter: blur(10px);
+    position: relative;
+    transition: transform 0.3s;
+}
+
+.card:hover {
+    transform: scale(1.05);
+}
+
+.locked::after {
+    content: "🔒";
+    font-size: 2.8rem;
+    position: absolute;
+    top: 38%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.day {
+    font-size: 1.3rem;
+    font-weight: bold;
+}
+
+.date {
+    font-size: 0.9rem;
+    opacity: 0.9;
+}
+
+.popup {
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.65);
+    display: none;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+}
+
+.popup-content {
+    background: white;
+    color: #333;
+    border-radius: 22px;
+    max-width: 90%;
+    padding: 20px;
+    animation: pop 0.4s ease;
+}
+
+.popup img {
+    width: 100%;
+    border-radius: 18px;
+    margin-bottom: 15px;
+}
+
+.popup p {
+    font-size: 1.15rem;
+    line-height: 1.6;
+}
+
+.close {
+    background: #ff4d6d;
+    color: white;
+    border: none;
+    padding: 10px 25px;
+    border-radius: 25px;
+    font-size: 1rem;
+    margin-top: 10px;
+}
+
+@keyframes pop {
+    from { transform: scale(0.8); opacity: 0; }
+    to { transform: scale(1); opacity: 1; }
+}
+</style>
+</head>
+
+<body>
+
+<h1>❤️ Valentine Week ❤️<br><small>One day. One feeling. Only that day.</small></h1>
+
+<div class="container" id="cards"></div>
+
+<div class="popup" id="popup">
+    <div class="popup-content">
+        <img id="popupImg">
+        <p id="popupText"></p>
+        <button class="close" onclick="closePopup()">Close 💖</button>
+    </div>
+</div>
+
+<script>
+const days = [
+  { name: "Rose Day 🌹", date: 7, img: "rose.jpg",
+    msg: "Like this rose, my love for you blooms silently and deeply. Every petal whispers your name." },
+
+  { name: "Propose Day 💍", date: 8, img: "propose.jpg",
+    msg: "I don’t need a special moment to choose you — I choose you every single day. Today, I offer you my forever." },
+
+  { name: "Chocolate Day 🍫", date: 9, img: "chocolate.jpg",
+    msg: "Life feels sweeter with you in it. You are my favorite addiction and my sweetest habit." },
+
+  { name: "Teddy Day 🧸", date: 10, img: "teddy.jpg",
+    msg: "Whenever you feel low or miss me, remember — my arms are always wrapped around you." },
+
+  { name: "Promise Day 🤞", date: 11, img: "promise.jpg",
+    msg: "I promise to stay, to listen, to fight for us, and to love you — even on the hardest days." },
+
+  { name: "Hug Day 🤗", date: 12, img: "hug.jpg",
+    msg: "This hug carries comfort, safety, and all the love I sometimes fail to say out loud." },
+
+  { name: "Kiss Day 😘", date: 13, img: "kiss.jpg",
+    msg: "Every kiss is a silent promise — that no matter what, my heart is yours." },
+
+  { name: "Valentine’s Day ❤️", date: 14, img: "valentine.jpg",
+    msg: "Happy Valentine’s Day, my love. You are not just my Valentine — you are my forever." }
+];
+
+const container = document.getElementById("cards");
+const today = new Date();
+const todayDate = today.getDate();
+const todayMonth = today.getMonth(); // Feb = 1
+
+days.forEach(day => {
+    const isToday = (todayMonth === 1 && todayDate === day.date);
+
+    const card = document.createElement("div");
+    card.className = "card" + (isToday ? "" : " locked");
+    card.innerHTML = `
+        <div class="day">${day.name}</div>
+        <div class="date">Feb ${day.date}</div>
+    `;
+
+    card.onclick = () => {
+        if (!isToday) {
+            alert(`⏳ This love opens only on Feb ${day.date}`);
+            return;
+        }
+        openPopup(day);
+    };
+
+    container.appendChild(card);
+});
+
+function openPopup(day) {
+    document.getElementById("popupImg").src = "images/" + day.img;
+    document.getElementById("popupText").innerText = day.msg;
+    document.getElementById("popup").style.display = "flex";
+}
+
+function closePopup() {
+    document.getElementById("popup").style.display = "none";
+}
+</script>
+
+</body>
+</html>

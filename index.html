@@ -71,7 +71,7 @@ h1{
 .day{font-size:1.4rem;font-weight:bold}
 .date{font-size:.95rem;opacity:.85}
 
-/* floating hearts bg */
+/* floating hearts */
 .bg-heart{
  position:fixed;
  font-size:1.2rem;
@@ -95,7 +95,7 @@ h1{
  z-index:999;
 }
 
-/* GLOW CARD */
+/* glowing popup card */
 .popup-content{
  position:relative;
  background:linear-gradient(135deg,#fff0f3,#ffe5ec);
@@ -115,7 +115,6 @@ h1{
  inset 0 0 20px rgba(255,255,255,.6);
 }
 
-/* glowing aura */
 .popup-content::before{
  content:"";
  position:absolute;
@@ -209,7 +208,6 @@ input{
 <audio id="bgMusic" src="love.mp3" loop></audio>
 
 <script>
-/* CHANGE PASSWORD */
 const VALENTINE_PASSWORD="Iloveyou";
 
 /* floating hearts */
@@ -268,9 +266,15 @@ function hearts(){
 }
 
 function openDay(d){
+ music.pause();
+ music.currentTime=0;
  music.volume=0;
  music.play();
- let fade=setInterval(()=>{if(music.volume<.6)music.volume+=.05;else clearInterval(fade)},200);
+
+ let fade=setInterval(()=>{
+  if(music.volume<0.6) music.volume+=0.05;
+  else clearInterval(fade);
+ },200);
 
  const popup=document.getElementById("popup");
  const content=document.getElementById("popupContent");
@@ -303,6 +307,8 @@ function checkPass(img,msg){
 }
 
 function closePopup(){
+ music.pause();
+ music.currentTime=0;
  document.getElementById("popup").style.display="none";
 }
 </script>

@@ -3,225 +3,264 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Valentine Week ❤️ Only For You</title>
+<title>Valentine Week ❤️ Only You</title>
 
 <style>
-body {
-    margin: 0;
-    font-family: 'Poppins', sans-serif;
-    background: radial-gradient(circle at top, #ff9a9e, #ff4d6d);
-    color: white;
-    text-align: center;
-    overflow-x: hidden;
+*{box-sizing:border-box}
+
+body{
+ margin:0;
+ font-family:'Poppins',sans-serif;
+ background:radial-gradient(circle at top,#ffb3c6,#ff4d6d,#6a0572);
+ min-height:100vh;
+ color:white;
+ overflow-x:hidden;
 }
 
-h1 {
-    padding: 20px 10px;
-    font-size: 2rem;
+h1{
+ text-align:center;
+ padding:25px 15px 10px;
+ font-size:2.2rem;
+ text-shadow:0 0 20px rgba(255,255,255,0.6);
 }
 
-.container {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
-    gap: 18px;
-    padding: 20px;
+.subtitle{font-size:1rem;opacity:.9}
+
+.container{
+ display:grid;
+ grid-template-columns:repeat(auto-fit,minmax(160px,1fr));
+ gap:22px;
+ padding:25px;
 }
 
-.card {
-    background: rgba(255,255,255,0.18);
-    border-radius: 22px;
-    padding: 20px;
-    cursor: pointer;
-    backdrop-filter: blur(12px);
-    position: relative;
-    transition: transform 0.4s, box-shadow 0.4s;
+.card{
+ background:rgba(255,255,255,0.18);
+ backdrop-filter:blur(16px);
+ border-radius:26px;
+ padding:22px;
+ position:relative;
+ cursor:pointer;
+ box-shadow:0 0 25px rgba(255,255,255,0.25);
+ transition:all .5s ease;
 }
 
-.card:hover {
-    transform: translateY(-6px);
-    box-shadow: 0 0 25px rgba(255,255,255,0.35);
+.card:hover{
+ transform:translateY(-8px) scale(1.05);
+ box-shadow:0 0 45px rgba(255,255,255,0.6);
 }
 
-.locked::after {
-    content: "🔒";
-    font-size: 2.8rem;
-    position: absolute;
-    top: 38%;
-    left: 50%;
-    transform: translate(-50%, -50%);
+.card.locked::after{
+ content:"🔒";
+ font-size:3rem;
+ position:absolute;
+ top:38%;
+ left:50%;
+ transform:translate(-50%,-50%);
 }
 
-.unlocking {
-    animation: unlockShake 0.5s ease;
+.unlocking{animation:shake .6s ease}
+
+@keyframes shake{
+ 0%{transform:rotate(0)}
+ 30%{transform:rotate(-6deg)}
+ 60%{transform:rotate(6deg)}
+ 100%{transform:rotate(0)}
 }
 
-@keyframes unlockShake {
-    0% { transform: rotate(0deg); }
-    25% { transform: rotate(-4deg); }
-    50% { transform: rotate(4deg); }
-    75% { transform: rotate(-2deg); }
-    100% { transform: rotate(0deg); }
+.day{font-size:1.4rem;font-weight:bold}
+.date{font-size:.95rem;opacity:.85}
+
+/* floating hearts bg */
+.bg-heart{
+ position:fixed;
+ font-size:1.2rem;
+ opacity:.25;
+ animation:floatBg linear infinite;
 }
 
-.day {
-    font-size: 1.3rem;
-    font-weight: bold;
+@keyframes floatBg{
+ from{transform:translateY(110vh)}
+ to{transform:translateY(-10vh)}
 }
 
-.date {
-    font-size: 0.9rem;
-    opacity: 0.9;
+/* popup */
+.popup{
+ position:fixed;
+ inset:0;
+ background:radial-gradient(circle,rgba(255,77,109,.9),rgba(0,0,0,.9));
+ display:none;
+ align-items:center;
+ justify-content:center;
+ z-index:999;
 }
 
-/* Heart animation */
-.heart {
-    position: fixed;
-    bottom: -20px;
-    font-size: 1.5rem;
-    animation: floatUp 2s ease forwards;
+.popup-content{
+ background:linear-gradient(135deg,#fff0f3,#ffe5ec);
+ color:#333;
+ max-width:92%;
+ border-radius:30px;
+ padding:24px;
+ animation:openMagic .9s ease;
+ box-shadow:0 30px 60px rgba(0,0,0,.6);
 }
 
-@keyframes floatUp {
-    to {
-        transform: translateY(-120vh);
-        opacity: 0;
-    }
+@keyframes openMagic{
+ from{transform:scale(.4) rotateX(90deg);opacity:0}
+ to{transform:scale(1) rotateX(0);opacity:1}
 }
 
-/* Love letter popup */
-.popup {
-    position: fixed;
-    inset: 0;
-    background: rgba(0,0,0,0.7);
-    display: none;
-    align-items: center;
-    justify-content: center;
-    z-index: 1000;
+.popup img{
+ width:100%;
+ border-radius:22px;
+ margin-bottom:15px;
 }
 
-.popup-content {
-    background: linear-gradient(135deg, #fff0f3, #ffe5ec);
-    color: #333;
-    border-radius: 26px;
-    max-width: 90%;
-    padding: 22px;
-    animation: letterOpen 0.6s ease;
-    box-shadow: 0 20px 40px rgba(0,0,0,0.4);
+.popup p{
+ font-size:1.2rem;
+ line-height:1.7;
 }
 
-@keyframes letterOpen {
-    from {
-        transform: scale(0.6) rotateX(90deg);
-        opacity: 0;
-    }
-    to {
-        transform: scale(1) rotateX(0deg);
-        opacity: 1;
-    }
+.close{
+ margin-top:12px;
+ background:linear-gradient(135deg,#ff4d6d,#ff758f);
+ color:white;
+ border:none;
+ padding:12px 30px;
+ border-radius:30px;
+ font-size:1.05rem;
 }
 
-.popup img {
-    width: 100%;
-    border-radius: 18px;
-    margin-bottom: 15px;
+/* password box */
+input{
+ width:100%;
+ padding:12px;
+ border-radius:20px;
+ border:none;
+ margin-top:10px;
+ font-size:1rem;
 }
 
-.popup p {
-    font-size: 1.15rem;
-    line-height: 1.7;
+.burst{
+ position:fixed;
+ font-size:1.8rem;
+ animation:burst 2s ease forwards;
 }
 
-.close {
-    background: #ff4d6d;
-    color: white;
-    border: none;
-    padding: 10px 28px;
-    border-radius: 25px;
-    font-size: 1rem;
-    margin-top: 12px;
+@keyframes burst{
+ to{transform:translateY(-120vh) scale(1.8);opacity:0}
 }
 </style>
 </head>
 
 <body>
 
-<h1>❤️ Valentine Week ❤️<br><small>Unlocked only when the heart is ready</small></h1>
+<h1>❤️ Valentine Week ❤️<br>
+<span class="subtitle">One day. One feeling. Only love.</span></h1>
 
 <div class="container" id="cards"></div>
 
 <div class="popup" id="popup">
-    <div class="popup-content">
-        <img id="popupImg">
-        <p id="popupText"></p>
-        <button class="close" onclick="closePopup()">Close 💖</button>
-    </div>
+ <div class="popup-content" id="popupContent"></div>
 </div>
 
+<audio id="bgMusic" src="music/love.mp3" loop></audio>
+
 <script>
-const days = [
-  { name:"Rose Day 🌹", date:7, img:"rose.jpg",
-    msg:"Like this rose, my love grows quietly but deeply — blooming just for you." },
-  { name:"Propose Day 💍", date:8, img:"propose.jpg",
-    msg:"Today I don’t ask — I promise. My heart has already chosen you." },
-  { name:"Chocolate Day 🍫", date:9, img:"chocolate.jpg",
-    msg:"Sweet moments taste better when shared with you." },
-  { name:"Teddy Day 🧸", date:10, img:"teddy.jpg",
-    msg:"Whenever you miss me, imagine my arms holding you tight." },
-  { name:"Promise Day 🤞", date:11, img:"promise.jpg",
-    msg:"I promise to stay, even when things are hard." },
-  { name:"Hug Day 🤗", date:12, img:"hug.jpg",
-    msg:"This hug carries comfort, warmth, and forever." },
-  { name:"Kiss Day 😘", date:13, img:"kiss.jpg",
-    msg:"Every kiss seals a promise words can’t express." },
-  { name:"Valentine’s Day ❤️", date:14, img:"valentine.jpg",
-    msg:"You are not just my Valentine — you are my always." }
+/* CHANGE THIS PASSWORD 👇 */
+const VALENTINE_PASSWORD = "hername"; // example: "riya"
+
+/* floating bg hearts */
+for(let i=0;i<25;i++){
+ let h=document.createElement("div");
+ h.className="bg-heart";
+ h.innerText="❤️";
+ h.style.left=Math.random()*100+"vw";
+ h.style.animationDuration=(8+Math.random()*8)+"s";
+ h.style.fontSize=(.8+Math.random()*1.2)+"rem";
+ document.body.appendChild(h);
+}
+
+/* data */
+const days=[
+{name:"Rose Day 🌹",date:7,img:"rose.jpg",msg:"Like this rose, my love blooms quietly and endlessly."},
+{name:"Propose Day 💍",date:8,img:"propose.jpg",msg:"My heart chose you long ago — today I just say it aloud."},
+{name:"Chocolate Day 🍫",date:9,img:"chocolate.jpg",msg:"Life tastes sweeter when every moment has you."},
+{name:"Teddy Day 🧸",date:10,img:"teddy.jpg",msg:"Whenever you miss me, imagine my arms holding you."},
+{name:"Promise Day 🤞",date:11,img:"promise.jpg",msg:"I promise to stay — always."},
+{name:"Hug Day 🤗",date:12,img:"hug.jpg",msg:"This hug says what words can’t."},
+{name:"Kiss Day 😘",date:13,img:"kiss.jpg",msg:"Every kiss seals my love for you."},
+{name:"Valentine’s Day ❤️",date:14,img:"valentine.jpg",msg:"You are not my Valentine — you are my forever."}
 ];
 
-const container = document.getElementById("cards");
-const today = new Date();
-const isFeb = today.getMonth() === 1;
-const todayDate = today.getDate();
+const today=new Date();
+const isFeb=today.getMonth()===1;
+const todayDate=today.getDate();
+const container=document.getElementById("cards");
+const music=document.getElementById("bgMusic");
 
-days.forEach(day => {
-    const isToday = isFeb && todayDate === day.date;
-
-    const card = document.createElement("div");
-    card.className = "card" + (isToday ? "" : " locked");
-    card.innerHTML = `<div class="day">${day.name}</div><div class="date">Feb ${day.date}</div>`;
-
-    card.onclick = () => {
-        if (!isToday) {
-            alert(`⏳ This unlocks only on Feb ${day.date}`);
-            return;
-        }
-        card.classList.add("unlocking");
-        heartBurst();
-        setTimeout(() => openPopup(day), 500);
-    };
-
-    container.appendChild(card);
+days.forEach(d=>{
+ const isToday=isFeb && todayDate===d.date;
+ const card=document.createElement("div");
+ card.className="card"+(isToday?"":" locked");
+ card.innerHTML=`<div class="day">${d.name}</div><div class="date">Feb ${d.date}</div>`;
+ card.onclick=()=>{
+  if(!isToday){alert("⏳ Opens only on Feb "+d.date);return;}
+  card.classList.add("unlocking");
+  hearts();
+  setTimeout(()=>openDay(d),700);
+ };
+ container.appendChild(card);
 });
 
-function heartBurst() {
-    for (let i = 0; i < 18; i++) {
-        const h = document.createElement("div");
-        h.className = "heart";
-        h.innerText = "❤️";
-        h.style.left = Math.random() * 100 + "vw";
-        h.style.animationDuration = (1.5 + Math.random()) + "s";
-        document.body.appendChild(h);
-        setTimeout(() => h.remove(), 2000);
-    }
+function hearts(){
+ for(let i=0;i<22;i++){
+  let h=document.createElement("div");
+  h.className="burst";
+  h.innerText="❤️";
+  h.style.left=Math.random()*100+"vw";
+  h.style.bottom="0";
+  document.body.appendChild(h);
+  setTimeout(()=>h.remove(),2000);
+ }
 }
 
-function openPopup(day) {
-    document.getElementById("popupImg").src = "images/" + day.img;
-    document.getElementById("popupText").innerText = day.msg;
-    document.getElementById("popup").style.display = "flex";
+function openDay(d){
+ music.volume=0;
+ music.play();
+ let fade=setInterval(()=>{ if(music.volume<.6) music.volume+=.05; else clearInterval(fade); },200);
+
+ const popup=document.getElementById("popup");
+ const content=document.getElementById("popupContent");
+
+ if(d.date===14){
+  content.innerHTML=`
+   <h2>💌 A secret before we begin</h2>
+   <p>Only you know the word.</p>
+   <input type="password" placeholder="Enter secret" id="pass">
+   <button class="close" onclick="checkPass('${d.img}','${d.msg}')">Unlock ❤️</button>`;
+ } else {
+  content.innerHTML=`
+   <img src="images/${d.img}">
+   <p>${d.msg}</p>
+   <button class="close" onclick="closePopup()">Close 💖</button>`;
+ }
+ popup.style.display="flex";
 }
 
-function closePopup() {
-    document.getElementById("popup").style.display = "none";
+function checkPass(img,msg){
+ const val=document.getElementById("pass").value.toLowerCase();
+ if(val!==VALENTINE_PASSWORD.toLowerCase()){
+  alert("❌ That’s not the word my heart knows");
+  return;
+ }
+ document.getElementById("popupContent").innerHTML=`
+  <img src="images/${img}">
+  <p>${msg}</p>
+  <button class="close" onclick="closePopup()">Close 💖</button>`;
+}
+
+function closePopup(){
+ document.getElementById("popup").style.display="none";
 }
 </script>
 

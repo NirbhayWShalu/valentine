@@ -240,12 +240,15 @@ const container=document.getElementById("cards");
 const music=document.getElementById("bgMusic");
 
 days.forEach(d=>{
- const isToday=isFeb && todayDate===d.date;
+ const isUnlocked = isFeb && todayDate >= d.date;
  const card=document.createElement("div");
- card.className="card"+(isToday?"":" locked");
+ card.className="card"+(isUnlocked?"":" locked");
  card.innerHTML=`<div class="day">${d.name}</div><div class="date">Feb ${d.date}</div>`;
  card.onclick=()=>{
-  if(!isToday){alert("⏳ Opens only on Feb "+d.date);return;}
+  if(!isUnlocked){
+   alert("⏳ Opens only on Feb "+d.date);
+   return;
+  }
   card.classList.add("unlocking");
   hearts();
   setTimeout(()=>openDay(d),700);

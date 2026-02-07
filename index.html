@@ -9,9 +9,10 @@
 body {
     margin: 0;
     font-family: 'Poppins', sans-serif;
-    background: linear-gradient(135deg, #ff758c, #ff7eb3);
+    background: radial-gradient(circle at top, #ff9a9e, #ff4d6d);
     color: white;
     text-align: center;
+    overflow-x: hidden;
 }
 
 h1 {
@@ -22,22 +23,23 @@ h1 {
 .container {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
-    gap: 15px;
+    gap: 18px;
     padding: 20px;
 }
 
 .card {
     background: rgba(255,255,255,0.18);
     border-radius: 22px;
-    padding: 18px;
+    padding: 20px;
     cursor: pointer;
-    backdrop-filter: blur(10px);
+    backdrop-filter: blur(12px);
     position: relative;
-    transition: transform 0.3s;
+    transition: transform 0.4s, box-shadow 0.4s;
 }
 
 .card:hover {
-    transform: scale(1.05);
+    transform: translateY(-6px);
+    box-shadow: 0 0 25px rgba(255,255,255,0.35);
 }
 
 .locked::after {
@@ -47,6 +49,18 @@ h1 {
     top: 38%;
     left: 50%;
     transform: translate(-50%, -50%);
+}
+
+.unlocking {
+    animation: unlockShake 0.5s ease;
+}
+
+@keyframes unlockShake {
+    0% { transform: rotate(0deg); }
+    25% { transform: rotate(-4deg); }
+    50% { transform: rotate(4deg); }
+    75% { transform: rotate(-2deg); }
+    100% { transform: rotate(0deg); }
 }
 
 .day {
@@ -59,10 +73,26 @@ h1 {
     opacity: 0.9;
 }
 
+/* Heart animation */
+.heart {
+    position: fixed;
+    bottom: -20px;
+    font-size: 1.5rem;
+    animation: floatUp 2s ease forwards;
+}
+
+@keyframes floatUp {
+    to {
+        transform: translateY(-120vh);
+        opacity: 0;
+    }
+}
+
+/* Love letter popup */
 .popup {
     position: fixed;
     inset: 0;
-    background: rgba(0,0,0,0.65);
+    background: rgba(0,0,0,0.7);
     display: none;
     align-items: center;
     justify-content: center;
@@ -70,12 +100,24 @@ h1 {
 }
 
 .popup-content {
-    background: white;
+    background: linear-gradient(135deg, #fff0f3, #ffe5ec);
     color: #333;
-    border-radius: 22px;
+    border-radius: 26px;
     max-width: 90%;
-    padding: 20px;
-    animation: pop 0.4s ease;
+    padding: 22px;
+    animation: letterOpen 0.6s ease;
+    box-shadow: 0 20px 40px rgba(0,0,0,0.4);
+}
+
+@keyframes letterOpen {
+    from {
+        transform: scale(0.6) rotateX(90deg);
+        opacity: 0;
+    }
+    to {
+        transform: scale(1) rotateX(0deg);
+        opacity: 1;
+    }
 }
 
 .popup img {
@@ -86,29 +128,24 @@ h1 {
 
 .popup p {
     font-size: 1.15rem;
-    line-height: 1.6;
+    line-height: 1.7;
 }
 
 .close {
     background: #ff4d6d;
     color: white;
     border: none;
-    padding: 10px 25px;
+    padding: 10px 28px;
     border-radius: 25px;
     font-size: 1rem;
-    margin-top: 10px;
-}
-
-@keyframes pop {
-    from { transform: scale(0.8); opacity: 0; }
-    to { transform: scale(1); opacity: 1; }
+    margin-top: 12px;
 }
 </style>
 </head>
 
 <body>
 
-<h1>❤️ Valentine Week ❤️<br><small>One day. One feeling. Only that day.</small></h1>
+<h1>❤️ Valentine Week ❤️<br><small>Unlocked only when the heart is ready</small></h1>
 
 <div class="container" id="cards"></div>
 
@@ -122,56 +159,60 @@ h1 {
 
 <script>
 const days = [
-  { name: "Rose Day 🌹", date: 7, img: "rose.jpg",
-    msg: "Like this rose, my love for you blooms silently and deeply. Every petal whispers your name." },
-
-  { name: "Propose Day 💍", date: 8, img: "propose.jpg",
-    msg: "I don’t need a special moment to choose you — I choose you every single day. Today, I offer you my forever." },
-
-  { name: "Chocolate Day 🍫", date: 9, img: "chocolate.jpg",
-    msg: "Life feels sweeter with you in it. You are my favorite addiction and my sweetest habit." },
-
-  { name: "Teddy Day 🧸", date: 10, img: "teddy.jpg",
-    msg: "Whenever you feel low or miss me, remember — my arms are always wrapped around you." },
-
-  { name: "Promise Day 🤞", date: 11, img: "promise.jpg",
-    msg: "I promise to stay, to listen, to fight for us, and to love you — even on the hardest days." },
-
-  { name: "Hug Day 🤗", date: 12, img: "hug.jpg",
-    msg: "This hug carries comfort, safety, and all the love I sometimes fail to say out loud." },
-
-  { name: "Kiss Day 😘", date: 13, img: "kiss.jpg",
-    msg: "Every kiss is a silent promise — that no matter what, my heart is yours." },
-
-  { name: "Valentine’s Day ❤️", date: 14, img: "valentine.jpg",
-    msg: "Happy Valentine’s Day, my love. You are not just my Valentine — you are my forever." }
+  { name:"Rose Day 🌹", date:7, img:"rose.jpg",
+    msg:"Like this rose, my love grows quietly but deeply — blooming just for you." },
+  { name:"Propose Day 💍", date:8, img:"propose.jpg",
+    msg:"Today I don’t ask — I promise. My heart has already chosen you." },
+  { name:"Chocolate Day 🍫", date:9, img:"chocolate.jpg",
+    msg:"Sweet moments taste better when shared with you." },
+  { name:"Teddy Day 🧸", date:10, img:"teddy.jpg",
+    msg:"Whenever you miss me, imagine my arms holding you tight." },
+  { name:"Promise Day 🤞", date:11, img:"promise.jpg",
+    msg:"I promise to stay, even when things are hard." },
+  { name:"Hug Day 🤗", date:12, img:"hug.jpg",
+    msg:"This hug carries comfort, warmth, and forever." },
+  { name:"Kiss Day 😘", date:13, img:"kiss.jpg",
+    msg:"Every kiss seals a promise words can’t express." },
+  { name:"Valentine’s Day ❤️", date:14, img:"valentine.jpg",
+    msg:"You are not just my Valentine — you are my always." }
 ];
 
 const container = document.getElementById("cards");
 const today = new Date();
+const isFeb = today.getMonth() === 1;
 const todayDate = today.getDate();
-const todayMonth = today.getMonth(); // Feb = 1
 
 days.forEach(day => {
-    const isToday = (todayMonth === 1 && todayDate === day.date);
+    const isToday = isFeb && todayDate === day.date;
 
     const card = document.createElement("div");
     card.className = "card" + (isToday ? "" : " locked");
-    card.innerHTML = `
-        <div class="day">${day.name}</div>
-        <div class="date">Feb ${day.date}</div>
-    `;
+    card.innerHTML = `<div class="day">${day.name}</div><div class="date">Feb ${day.date}</div>`;
 
     card.onclick = () => {
         if (!isToday) {
-            alert(`⏳ This love opens only on Feb ${day.date}`);
+            alert(`⏳ This unlocks only on Feb ${day.date}`);
             return;
         }
-        openPopup(day);
+        card.classList.add("unlocking");
+        heartBurst();
+        setTimeout(() => openPopup(day), 500);
     };
 
     container.appendChild(card);
 });
+
+function heartBurst() {
+    for (let i = 0; i < 18; i++) {
+        const h = document.createElement("div");
+        h.className = "heart";
+        h.innerText = "❤️";
+        h.style.left = Math.random() * 100 + "vw";
+        h.style.animationDuration = (1.5 + Math.random()) + "s";
+        document.body.appendChild(h);
+        setTimeout(() => h.remove(), 2000);
+    }
+}
 
 function openPopup(day) {
     document.getElementById("popupImg").src = "images/" + day.img;

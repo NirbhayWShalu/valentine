@@ -136,7 +136,8 @@ h1{
  to{transform:scale(1) rotateX(0);opacity:1}
 }
 
-.popup img{
+.popup img,
+.popup video{
  width:100%;
  max-width:320px;
  border-radius:22px;
@@ -230,7 +231,7 @@ const days=[
 {name:"Promise Day 🤞",date:11,img:"promise.png",msg:"I promise to stay — always."},
 {name:"Hug Day 🤗",date:12,img:"hug.png",msg:"This hug says what words can’t."},
 {name:"Kiss Day 😘",date:13,img:"kiss.png",msg:"Every kiss seals my love for you."},
-{name:"Valentine’s Day ❤️",date:14,img:"valentine.png",msg:"You are not my Valentine — you are my forever."}
+{name:"Valentine’s Day ❤️",date:14,img:"valentine.mp4",msg:"You are not my Valentine — you are my forever."}
 ];
 
 const today=new Date();
@@ -287,7 +288,7 @@ function openDay(d){
    <h2>💌 A secret before we begin</h2>
    <p>Only you know the word.</p>
    <input type="password" placeholder="Enter secret" id="pass">
-   <button class="close" onclick="checkPass('${d.img}','${d.msg}')">Unlock ❤️</button>`;
+   <button class="close" onclick="checkPassVideo('${d.msg}')">Unlock ❤️</button>`;
  }else{
   content.innerHTML=`
    <img src="${d.img}">
@@ -297,14 +298,20 @@ function openDay(d){
  popup.style.display="flex";
 }
 
-function checkPass(img,msg){
- const val=document.getElementById("pass").value.toLowerCase();
- if(val!==VALENTINE_PASSWORD.toLowerCase()){
+function checkPassVideo(msg){
+ const input = document.getElementById("pass").value.trim().toLowerCase();
+ const correct = VALENTINE_PASSWORD.trim().toLowerCase();
+
+ if(input !== correct){
   alert("❌ That’s not the word my heart knows");
   return;
  }
+
  document.getElementById("popupContent").innerHTML=`
-  <img src="${img}">
+  <video width="100%" controls autoplay style="border-radius:22px; margin:12px 0;">
+    <source src="valentine.mp4" type="video/mp4">
+    Your browser does not support the video tag.
+  </video>
   <p>${msg}</p>
   <button class="close" onclick="closePopup()">Close 💖</button>`;
 }
